@@ -102,7 +102,7 @@ def F_function(r, X, W):
 
     return(F.mean())
 
-    def G_function(r, X):
+def G_function(r, X):
     #W=width of the feild in [x0,y0,x1,y1]
     G=[]
     for i in range(0, len(X['x'])):
