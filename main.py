@@ -6,18 +6,18 @@ import math
 import matplotlib.pyplot as plt
 import Functions as F
 
-X=F.random_2d_points_lam(5, 15, 5, 15, 1)
+X=F.random_2d_points_lam(10, 20, 10, 20, 2)
 
 
-t_range=np.linspace(0, 1, 20)
+t_range=np.linspace(0, 2, 25)
 
 Kt=[]
 for t in t_range:
-    Kt=np.append(Kt, F.K_function(t, X, [5, 5, 15, 15]))
+    Kt=np.append(Kt, F.K_function(t, X, [10, 10, 20, 20]))
 
 Fr=[]
 for t in t_range:
-    Fr=np.append(Fr, F.F_function(t, X, [5, 5, 15, 15]))
+    Fr=np.append(Fr, F.F_function(t, X, [10, 10, 20, 20]))
 
 plt.plot(t_range, Kt)
 p=np.pi
