@@ -89,6 +89,11 @@ def K_function(t, X, W):
 
     return K.mean()
 
+def PCP(t, X, W, dt=1):
+    #W=width of the feild in [x0,y0,x1,y1]
+    
+    return K_function(t+dt, X, W)-K_function(t, X, W)
+
 def F_function(r, X, W):
     #W=width of the feild in [x0,y0,x1,y1]
     F=[]
