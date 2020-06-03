@@ -93,6 +93,7 @@ def PCP(t, X, W, dt=1):
     #W=width of the feild in [x0,y0,x1,y1]
     
     return K_function(t+dt, X, W)-K_function(t, X, W)
+    #adding comments here to track changes
 
 def F_function(r, X, W):
     #W=width of the feild in [x0,y0,x1,y1]
@@ -102,6 +103,7 @@ def F_function(r, X, W):
 
             if(region_count_circle(r, [i,j] , X)>0):
                 F=np.append(F, 1)
+                
             else:
                 F=np.append(F, 0)
 
