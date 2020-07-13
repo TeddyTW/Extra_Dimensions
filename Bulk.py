@@ -29,7 +29,7 @@ def Bulk_Scalar(H, V, r0, LamB=0.0, k: float = 1, m: float = 0.2, visualise: boo
 
         #xs2 = np.linspace(0, r0, (2**12)*r0)
 
-        res_a = solve_bvp(Func, bc, xs, y_a, tol=1e-8)
+        res_a = solve_bvp(Func, bc, xs, y_a, tol=1e-9)
         y0 = res_a.sol(xs)[0]
         d0 = res_a.sol(xs)[1]
 
@@ -61,11 +61,11 @@ def Bulk_Scalar(H, V, r0, LamB=0.0, k: float = 1, m: float = 0.2, visualise: boo
         
     return(phi, d_phi)
 
-def Bulk_Potential(H: float, V: float, Ymax: float, LamB=0.0, k: float = 1, m: float = 0.2, visualise: bool = True): 
+def Bulk_Potential(H: float, V: float, Ymin: float, Ymax: float, LamB=0.0, k: float = 1, m: float = 0.2, visualise: bool = True): 
     Potential=[]
     Y = []
-    y = 0.1
-    while y < Ymax:
+    y = Ymin
+    while y <= Ymax:
         
         phi, d_phi = Bulk_Scalar(H, V, y, LamB=LamB, k=k, m=m, visualise=False)  
         ys=phi[1]; ds=d_phi[1]
@@ -77,20 +77,34 @@ def Bulk_Potential(H: float, V: float, Ymax: float, LamB=0.0, k: float = 1, m: f
         Potential=np.append(Potential, simps(L, xs))
         Y=np.append(Y, y)
 
-        y=y+0.05
+        y=y+0.01
 
-        #print(y, end="\r")
+        print(y, end="\r")
 
     if visualise:
+        
+        A = ((V * np.exp((c-2)*k*Y)) - H)/(np.exp(2*c*k*Y)-1)
+
+        B = H-A
+        
+        
+        Pot=(A*A*k*(2+c)*(np.exp(2*c*k*Y)-1) + k*(c-2)*B*B*(1-np.exp(-2*c*k*Y)))
+        
+
+        
+        
         plt.plot(Y, Potential, label = "Potential")
+        plt.plot(Y, Pot)
         #plt.plot(xs, Phi(AStiff, BStiff, xs), label = "Analytic Limit")
         plt.legend()
         plt.show()
         
         print("Minima,  ", "y: ", Y[Potential.argmin()], " V: ", Potential.min())
+        print("Analytical Min, y:", Y[Pot.argmin()], "V:", Pot.min())
 
 
     return [Y, Potential]
+
 # c=np.sqrt(4+(np.power(m,2)/np.power(k,2)))
 # E=np.sqrt(4+(np.power(m,2)/np.power(k,2)))-2
 
